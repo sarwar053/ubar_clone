@@ -4,6 +4,7 @@ const router=express.Router();
 
 const {body}=require('express-validator');
 const userController=require('../controllers/user.controller');
+const authmiddleware=require('../middleware/auth.middleware');
 
 router.post('/register',[
     body('email').isEmail(),
@@ -15,4 +16,10 @@ router.post('/login',[
     body('email').isEmail(),
     body('password').isLength({min:6,max:50}).withMessage('password must be 6 to 50 characters')
 ],userController.loginUser)
+
+router.get('/profile',authmiddleware.authUser,userController.getUserProfile)
+
+router.get('/logout',userController.logoutUser)
+
+
 module.exports=router
