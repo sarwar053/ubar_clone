@@ -1,5 +1,6 @@
 const mongoose=require('mongoose');
 const jwt=require('jsonwebtoken');
+const bcrypt=require('bcrypt');
 const captainSchema=new mongoose.Schema({
     fullname:{
         firstname:{
@@ -35,7 +36,7 @@ const captainSchema=new mongoose.Schema({
         enum:['active','inactive'],
         default:'inactive'
     },
-    vhicle:{
+    vehicle:{
         color:{
             type: String,
             required: true,
@@ -51,10 +52,10 @@ const captainSchema=new mongoose.Schema({
             required: true,
             min: 1
         },
-        vechincalType:{
+        vehicleType:{
             type: String,
             required: true,
-            enum: ['car','bus','truck']
+            enum: ['car','motorcycle','auto']
         }
     },
     location:{
@@ -69,7 +70,7 @@ const captainSchema=new mongoose.Schema({
 })
 
 captainSchema.methods.generateAuthToken=function(){
-    const token=jwt.sing({_id:this._id},process.env.JWT_PRIVATE_KEY,{expiresIn:'1d'});
+    const token=jwt.sign({_id:this._id},process.env.JWT_PRIVATE_KEY,{expiresIn:'1d'});
     return token
 }
 
