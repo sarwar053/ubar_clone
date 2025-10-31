@@ -1,29 +1,48 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import axios from "axios"
+import { UserDataContext } from '../context/context'
 
 function UserSignUp() {
   const [email,setEmail]=React.useState('')
   const [password,setPassword]=React.useState('')
   const [firstname,setFirstName]=React.useState('')
   const [lastname,setLastName]=React.useState('')
-  const [userData,setUserData]=React.useState({})
   
-  const submitHandle=(e)=>{
+
+  const navigate=useNavigate()
+  
+  const {setUser}=React.useContext(UserDataContext)
+  
+  const submitHandle= async(e)=>{
     e.preventDefault()
-    setUserData({
+
+    const newUser={
       email,
       password,
       fullname: {
         firstname,
         lastname
       }
-    })
+    }
+    
+    const response=await axios.post('http://localhost:4000/users/register',newUser)
+
+    if(response.status===201){
+      
+      setUser(response.data.user) 
+      localStorage.setItem('token',response.data.token)
+      navigate('/home')
+    }
+    
     setEmail('')
     setPassword('')
     setFirstName('')
     setLastName('')
-    console.log(userData)
   }
+
+
+
   return (
     <div className='p-7 h-screen flex flex-col justify-between'>
       <div>
@@ -69,7 +88,7 @@ function UserSignUp() {
             placeholder="password" />
           <button type='submit'
             className='bg-[#111] text-white font-semibold mb-5 rounded px-4 py-2 border-0 w-full text-lg placeholder:text-base'
-          >Login</button>
+          >Sign up</button>
 
           <p className='text-center'>already have an account?<Link to='/user-login' className='text-blue-600'>Login</Link></p>
 

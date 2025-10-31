@@ -74,7 +74,7 @@ function CaptainSignup() {
             placeholder="password" />
           <button type='submit'
             className='bg-[#111] text-white font-semibold mb-5 rounded px-4 py-2 border-0 w-full text-lg placeholder:text-base'
-          >Login</button>
+          >sign up</button>
 
           <p className='text-center'>already have a captain account?<Link to='/captain-login' className='text-blue-600'>Login</Link></p>
 

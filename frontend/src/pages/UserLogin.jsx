@@ -1,18 +1,34 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import axios from "axios"
+import { UserDataContext } from '../context/context'
+import { useNavigate } from 'react-router-dom'
 
 function UserLogin() {
   const [email,setEmail]=React.useState('')
   const [password,setPassword]=React.useState('')
-  const [userData,setUserData]=React.useState({})
   
-  const submitHandle=(e)=>{
+  
+
+  const navigate=useNavigate()
+  
+  const {setUser}=React.useContext(UserDataContext)
+
+
+  const submitHandle=async(e)=>{
     e.preventDefault()
-    setUserData({email,password})
+    const userData={email,password}
     setEmail('')
     setPassword('')
-    console.log(userData)
+    const response=await axios.post('http://localhost:4000/users/login',userData,{withCredentials:true})
+    if(response.status===200){
+      setUser(response.data.user)
+      localStorage.setItem('token',response.data.token)
+      navigate('/home')
+    }
   }
+
+
 
 
   return (
@@ -40,7 +56,7 @@ function UserLogin() {
             className='bg-[#111] text-white font-semibold mb-5 rounded px-4 py-2 border-0 w-full text-lg placeholder:text-base'
           >Login</button>
 
-          <p className='text-center'>New here?<Link to='/signup' className='text-blue-600'>Create new Account</Link></p>
+          <p className='text-center'>New here?<Link to='/user-signup' className='text-blue-600'>Create new Account</Link></p>
 
         </form>
       </div>
