@@ -6,3 +6,9 @@ export const UserDataContext = React.createContext(
     loading:false
     }
 );
+export const CaptainDataContext = React.createContext(
+    {
+    captain:null,
+    loading:false
+    }
+);

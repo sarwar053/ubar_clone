@@ -4,11 +4,11 @@ import UserLogin from './pages/UserLogin'
 import UserSignUp from './pages/UserSignup'
 import CaptainLogin from './pages/CaptainLogin'
 import CaptainSignUp from './pages/CaptainSignup'
-import { UserDataContext } from './context/context'
 import Start from './pages/start'
 import Home from './pages/home'
 import UserProtectedWrapper from './pages/UserProtectedWrapper'
 import UserLogout from './pages/userLogout'
+import CaptainHome from './pages/Captain-home'
 function App() {
   
 
@@ -23,6 +23,12 @@ function App() {
     <Route path='/home' element={
       <UserProtectedWrapper>
           <Home/>
+      </UserProtectedWrapper>
+      }/>
+     
+     <Route path='/captain-home' element={
+      <UserProtectedWrapper>
+          <CaptainHome/>
       </UserProtectedWrapper>
       }/>
 
